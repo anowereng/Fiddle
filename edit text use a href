@@ -1,0 +1,28 @@
+<p>X-editable (dev)</p>
+<div style="margin: 150px">
+    <a href="#" id="username" data-value="ru" data-source='[{"id": "gb", "text": "Great Britain"},{"id": "us", "text": "United States"}, {"id": "ru", "text": "Russia"}]'></a>
+</div>
+
+$('#username').editable({
+  type: 'select2',  
+  url: '/post',    
+  pk: 1,    
+  emptytext: 'None',
+  select2: {
+                placeholder: 'Select country'
+           }
+});
+
+//ajax emulation. Type "err" to see error message
+$.mockjax({
+    url: '/post',
+    responseTime: 400,
+    response: function(settings) {
+        if(settings.data.value == 'err') {
+           this.status = 500;  
+           this.responseText = 'Validation error!'; 
+        } else {
+           this.responseText = '';  
+        }
+    }
+}); 
